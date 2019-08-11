@@ -19,7 +19,7 @@ class KnowledgeMasterScreen extends React.Component {
   renderItem = ({ item: { title, image, body } }) => (
     <ListItem
       title={title}
-      leftAvatar={{ source: { uri: image } }}
+      leftAvatar={image != null && { source: { uri: image } }}
       onPress={() =>
         this.props.navigation.navigate('KnowledgeDetails', {
           title,
@@ -66,38 +66,44 @@ class KnowledgeMasterScreen extends React.Component {
   render() {
     const { search } = this.state;
     return (
-      <ScrollView>
+      <View>
         <SearchBar
           lightTheme
-          placeholder="Type Here..."
+          placeholder="Suchen"
           onChangeText={this.updateSearch}
           value={search}
         />
-        {search === '' &&
-          knowledge.map(({ sectionTitle, sectionParts }) => (
-            <View>
-              <Text h2>{sectionTitle}</Text>
-              <FlatList
-                keyExtractor={this.keyExtractor}
-                data={sectionParts}
-                renderItem={this.renderItem}
-              />
-            </View>
-          ))}
-        {search !== '' &&
-          knowledge.map(({ sectionTitle, sectionParts }) => (
-            <View>
-              <Text h2>{sectionTitle}</Text>
-              <FlatList
-                keyExtractor={this.keyExtractor}
-                data={sectionParts.filter(
-                  x => x.title.includes(search) || x.body.includes(search)
-                )}
-                renderItem={this.renderItemSearch}
-              />
-            </View>
-          ))}
-      </ScrollView>
+        <ScrollView contentContainerStyle={{ margin: 20, paddingBottom: 100 }}>
+          {search === '' &&
+            knowledge.map(({ sectionTitle, sectionParts }) => (
+              <View>
+                <Text h2 style={{ marginVertical: 20 }}>
+                  {sectionTitle}
+                </Text>
+                <FlatList
+                  keyExtractor={this.keyExtractor}
+                  data={sectionParts}
+                  renderItem={this.renderItem}
+                />
+              </View>
+            ))}
+          {search !== '' &&
+            knowledge.map(({ sectionTitle, sectionParts }) => (
+              <View>
+                <Text h2 style={{ marginVertical: 20 }}>
+                  {sectionTitle}
+                </Text>
+                <FlatList
+                  keyExtractor={this.keyExtractor}
+                  data={sectionParts.filter(
+                    x => x.title.includes(search) || x.body.includes(search)
+                  )}
+                  renderItem={this.renderItemSearch}
+                />
+              </View>
+            ))}
+        </ScrollView>
+      </View>
     );
   }
 }

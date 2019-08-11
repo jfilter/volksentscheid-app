@@ -11,15 +11,19 @@ class KnowledgeDetailsScreen extends React.Component {
     const image = navigation.getParam('image', 'some default value');
     const body = navigation.getParam('body', 'some default value');
     return (
-      <ScrollView>
-        <Image
-          style={{ width: '100%', height: '100%' }}
-          source={{
-            uri: image,
-          }}
-        />
-        <Text h2>{title}</Text>
-        <Text>{body}</Text>
+      <ScrollView contentContainerStyle={{ margin: 20, paddingBottom: 500 }}>
+        {(
+          <Image
+            style={{ width: '100%', height: '100%' }}
+            source={{
+              uri: image,
+            }}
+          />
+        ) && image != null}
+        <Text style={{ marginVertical: 20 }} h2>
+          {title}
+        </Text>
+        <Text style={{ lineHeight: 20 }}>{body}</Text>
       </ScrollView>
     );
   }
